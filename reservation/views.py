@@ -108,7 +108,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             Account.objects.create(user = user, email = request.POST.get('email'))
-            auth_login(request, user)
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, 'Registration successful!')
             return redirect('home')
         else:

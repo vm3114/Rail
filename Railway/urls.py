@@ -28,6 +28,7 @@ urlpatterns = [
     path('add-coach/<int:train_id>/', add_coach, name='add_coach'),
     path('delete_train/<int:train_id>/', delete_train, name = 'delete_train'),
     path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.socialaccount.urls')),
     path('login/', CustomLoginView.as_view(), name = 'login'),
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('signup/', signup, name = 'signup'),
