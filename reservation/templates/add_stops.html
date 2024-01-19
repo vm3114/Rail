@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0 text-center">Add Stop</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ stop_form.as_p }}
+                        <button type="submit" class="btn btn-success mt-3">Save Stop</button>
+                    </form>
+                    <a href="{% url 'add_train' %}" class="btn btn-secondary mt-2">Back to Add Train</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

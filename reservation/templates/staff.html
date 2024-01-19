@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+<main class="container mt-4">
+    <h2>Trains</h2>
+    <hr>
+    <div id="accordion">
+        {% for train in trains %}
+            <div class="card">
+                <div class="card-header" id="train{{ train.id }}">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ train.id }}" aria-expanded="true" aria-controls="collapse{{ train.id }}">
+                            {{ train.code }}-{{ train.name }}
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapse{{ train.id }}" class="collapse" aria-labelledby="train{{ train.id }}" data-parent="#accordion">
+                    <div class="card-body">
+                        <p>Train Code: {{ train.code }}</p>
+                        <p>Stops: {% for stop in train.stops.all %}{{ stop.station }}
+                            {% if not forloop.last %},{% endif %}
+                            {% endfor %}</p>
+                        <p>No. of Coaches: {{ train.coach_set.count }}</p>
+                        <p>Total seats: {{ train|train_total_seats }}</p>
+
+                        <a href="{% url 'add_coach' train_id=train.id %}" class="btn btn-warning">Add Coach</a>
+                        <a href="{% url 'delete_train' train_id=train.id %}" class="btn btn-danger">Delete Train</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        
+    </div>
+    <a class="btn btn-success mt-3" href="{% url 'add_train' %}" >Add Trains</a>
+</main>
+{% endblock %}

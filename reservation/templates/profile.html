@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <div class="profile-container">
+        <h2>User Profile</h2>
+        <hr>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ account.email }}</p>
+        <p><strong>Balance:</strong> ₹ {{ account.credit }}</p>
+        <hr>
+        <h3>Add Balance</h3>
+        <form method="post" action="{% url 'add_balance' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" class="form-control" id="amount" name="amount" required>
+            </div>
+            <button type="submit" class="btn btn-success">Add Balance</button>
+        </form>
+        <hr>
+        <h3 class="mt-4">Seat Reservations</h3>
+        {% if seat_reservations %}
+        <div class="table-responsive">
+            <table class="table table-bordered mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Train</th>
+                        <th>Seat Number</th>
+                        <th>Day</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for seat_reservation in seat_reservations %}
+                    <tr>
+                        <td>{{ seat_reservation.coach.train.name }}</td>
+                        <td>{{ seat_reservation.seat_number }}</td>
+                        <td>{{ seat_reservation.day.name }}</td>
+                        <td>{{ seat_reservation.date }}</td>
+                        <td>{{ seat_reservation.name }}</td>
+                        <td>{{ seat_reservation.age }}</td>
+                        <td>
+                            <form method="post" action="{% url 'delete_seat_reservation' seat_reservation.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>No seat reservations found.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
